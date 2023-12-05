@@ -1,0 +1,39 @@
+import java.util.*;
+public class BinarySearch {
+
+    static int binarySearch(int arr[], int low, int high, int target) {
+        if (high >= low) {
+            int mid = low + (high - low) / 2;
+
+           
+            if (arr[mid] == target)
+                return mid;
+
+           
+            if (arr[mid] > target)
+                return binarySearch(arr, low, mid - 1, target);
+
+         
+            return binarySearch(arr, mid + 1, high, target);
+        }
+
+   
+        return -1;
+    }
+
+ 
+    public static void main(String args[]) {
+        int arr[] = {2, 3, 4, 10, 40};
+        int target = 10;
+        int n = arr.length;
+
+        int result = binarySearch(arr, 0, n - 1, target);
+
+        if (result == -1)
+            System.out.println("Element " + target + " not present in array");
+        else
+            System.out.println("Element " + target + " found at index " + result);
+    }
+}
+
+
