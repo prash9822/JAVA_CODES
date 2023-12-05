@@ -1,0 +1,56 @@
+
+import java.util.*;
+public class AlgorithmPrims{
+public static void primsAlgorithm(int arr[][],int v )
+{
+int no_of_edge=0;
+int selected[]=new int[v];
+selected[0]=1;
+int x;
+int y;
+while(no_of_edge < v)
+{
+x=0;
+y=0;
+int min=Integer.MAX_VALUE;
+for(int i=0;i<v;i++)
+{
+if(selected[i]==1)
+{
+for(int j=0;j<v;j++)
+{
+if(selected[j]==0 && arr[i][j] != 0)
+{
+if(min>arr[i][j])
+{
+min=arr[i][j];
+x=i;
+y=j;
+}
+}
+}
+}
+}
+System.out.println(x+"-->"+y+" ");
+System.out.println(arr[x][y]);
+selected[y]=1;
+no_of_edge++;
+}
+}
+ public static void main(String args[])
+ {
+ System.out.println("Enter number of vertices:");
+ Scanner sc=new Scanner(System.in);
+ int v=sc.nextInt();
+ System.out.println("Enter the element of graphs :");
+ int arr[][]=new int[v][v];
+ for(int i=0;i<v;i++)
+ {
+ for(int j=0;j<v;j++)
+ {
+ arr[i][j]=sc.nextInt();
+ }
+ }
+ primsAlgorithm(arr,v );
+}
+}
