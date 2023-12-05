@@ -1,0 +1,63 @@
+
+import java.util.*;
+public class KruskalsAlgorithm {
+public static void spanningTree(int arr[][],int n,int m)
+{
+ boolean vis[]=new boolean[n];
+ int i=0;
+int min=Integer.MAX_VALUE;
+int sum=0;
+while(i<n)
+{
+ for(int j=0;j<arr[i].length;j++)
+ {
+ if(arr[i][j]<min)
+ {
+ min=arr[i][j];
+ }
+}
+if(vis[i]==false)
+{
+ sum=sum+i;
+}
+else
+{
+ vis[i]=true;
+}
+i++;
+}
+System.out.println("Minimum spanning tree is :");
+System.out.println(sum);
+}
+public static void printGraph(int arr[][],int n ,int m)
+{
+for(int i=0;i<n;i++)
+{
+for(int j=0;j<m;j++)
+{
+System.out.print(arr[i][j]+" ");
+}
+System.out.println();
+}
+}
+public static void main(String aregs[])
+{
+Scanner sc=new Scanner(System.in);
+System.out.println("Enter the number of rows:");
+int n=sc.nextInt();
+System.out.println("Enter the number of columns:");
+int m=sc.nextInt();
+int arr[][]=new int[n][m];
+System.out.println("Enter the element of arrays:");
+for(int i=0;i<n;i++)
+{
+for(int j=0;j<m;j++)
+{
+arr[i][j]=sc.nextInt();
+}
+}
+System.out.println("graph:");
+printGraph(arr,n ,m);
+spanningTree(arr,n,m);
+}
+}
