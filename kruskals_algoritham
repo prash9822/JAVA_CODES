@@ -1,63 +1,116 @@
-
 import java.util.*;
-public class KruskalsAlgorithm {
-public static void spanningTree(int arr[][],int n,int m)
-{
- boolean vis[]=new boolean[n];
- int i=0;
-int min=Integer.MAX_VALUE;
-int sum=0;
-while(i<n)
-{
- for(int j=0;j<arr[i].length;j++)
- {
- if(arr[i][j]<min)
- {
- min=arr[i][j];
- }
-}
-if(vis[i]==false)
-{
- sum=sum+i;
-}
-else
-{
- vis[i]=true;
-}
-i++;
-}
-System.out.println("Minimum spanning tree is :");
-System.out.println(sum);
-}
-public static void printGraph(int arr[][],int n ,int m)
-{
-for(int i=0;i<n;i++)
-{
-for(int j=0;j<m;j++)
-{
-System.out.print(arr[i][j]+" ");
-}
-System.out.println();
-}
-}
-public static void main(String aregs[])
-{
-Scanner sc=new Scanner(System.in);
-System.out.println("Enter the number of rows:");
-int n=sc.nextInt();
-System.out.println("Enter the number of columns:");
-int m=sc.nextInt();
-int arr[][]=new int[n][m];
-System.out.println("Enter the element of arrays:");
-for(int i=0;i<n;i++)
-{
-for(int j=0;j<m;j++)
-{
-arr[i][j]=sc.nextInt();
-}
-}
-System.out.println("graph:");
-printGraph(arr,n ,m);
-spanningTree(arr,n,m);
-}
-}
+public class kruskal {
+    
+
+    
+    
+        public static class Edge {
+            public int source;
+            public int destination;
+            public int weight;
+    
+            public Edge(int source, int destination, int weight) {
+                this.source = source;
+                this.destination = destination;
+                this.weight = weight;
+            }
+        }
+    
+        public static class Graph {
+            public List<Edge> edges;
+            public List<Edge> minimumSpanningTree;
+    
+            public Graph() {
+                this.edges = new ArrayList<>();
+                this.minimumSpanningTree = new ArrayList<>();
+            }
+    
+            public void addEdge(Edge edge) {
+                this.edges.add(edge);
+            }
+    
+            public void findMinimumSpanningTree() {
+                // Sort all edges in increasing order of their weight.
+                Collections.sort(this.edges, (e1, e2) -> Integer.compare(e1.weight, e2.weight));
+    
+                // Create a union-find data structure to track connected components.
+                UnionFind unionFind = new UnionFind();
+    
+                // Iterate over all edges, adding the edge to the minimum spanning tree if it does not create a cycle.
+                for (Edge edge : this.edges) {
+                    if (!unionFind.isConnected(edge.source, edge.destination)) {
+                        unionFind.union(edge.source, edge.destination);
+                        this.minimumSpanningTree.add(edge);
+                    }
+                }
+            }
+        }
+    
+        public static void printMinimumSpanningTreeEdges(Graph graph) {
+            for (Edge edge : graph.minimumSpanningTree) {
+    
+                System.out.println(edge.source + "\t\t " + edge.destination + "\t    (" + edge.weight + ")");
+    
+            }
+        }
+        public static class UnionFind {
+            private int[] parent;
+            private int[] rank;
+    
+            public UnionFind() {
+                this.parent = new int[100];
+                this.rank = new int[100];
+    
+                for (int i = 0; i < this.parent.length; i++) {
+                    this.parent[i] = i;
+                    this.rank[i] = 1;
+                }
+            }
+    
+            public int find(int node) {
+                if (this.parent[node] == node) {
+                    return node;
+                } else {
+                    this.parent[node] = find(this.parent[node]);
+                    return this.parent[node];
+                }
+            }
+    
+            public void union(int node1, int node2) {
+                int root1 = find(node1);
+                int root2 = find(node2);
+    
+                if (this.rank[root1] > this.rank[root2]) {
+                    this.parent[root2] = root1;
+                } else if (this.rank[root1] < this.rank[root2]) {
+                    this.parent[root1] = root2;
+                } else {
+                    this.parent[root2] = root1;
+                    this.rank[root1]++;
+                }
+            }
+    
+            public boolean isConnected(int node1, int node2) {
+                return find(node1) == find(node2);
+            }
+        }
+
+        public static void main(String[] args) {
+            Graph graph = new Graph();
+    
+            // Add edges to the graph.
+            graph.addEdge(new Edge(0, 1, 4));
+            graph.addEdge(new Edge(0, 2, 3));
+            graph.addEdge(new Edge(1, 2, 1));
+            graph.addEdge(new Edge(2, 3, 2));
+            graph.addEdge(new Edge(3, 4, 6));
+            graph.addEdge(new Edge(4, 5, 5));
+    
+            // Find the minimum spanning tree of the graph.
+            graph.findMinimumSpanningTree();
+    
+            // Print the edges of the minimum spanning tree.
+            System.out.println("Source \t Destination \t Weight");
+            printMinimumSpanningTreeEdges(graph);
+        }
+    }
