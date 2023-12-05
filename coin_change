@@ -1,0 +1,44 @@
+import java.util.ArrayList;
+import java.util.List;
+
+public class coinchanging {
+    
+
+    public static void main(String[] args) {
+        int[] coins = {1, 2, 5, 7}; // Different coin denominations
+        int amount = 10; // The target amount for which you want to make change
+        List<List<Integer>> ways = findWaysToMakeChange(coins, amount);
+        
+        System.out.println("Number of ways to get target value: " + ways.size());
+        System.out.println("Ways to get target value: ");
+        for (List<Integer> way : ways) {
+            System.out.println(way);
+        }
+    }
+
+    public static List<List<Integer>> findWaysToMakeChange(int[] coins, int amount) {
+        List<List<Integer>> result = new ArrayList<>();
+        List<Integer> currentWay = new ArrayList<>();
+        countWaysToMakeChange(coins, amount, 0, currentWay, result);
+        return result;
+    }
+
+    public static void countWaysToMakeChange(int[] coins, int amount, int startIndex, List<Integer> currentWay, List<List<Integer>> result) {
+        if (amount == 0) {
+            result.add(new ArrayList<>(currentWay));
+            return;
+        }
+
+        if (amount < 0 || startIndex == coins.length) {
+            return;
+        }
+
+        // Include the current coin and recurse
+        currentWay.add(coins[startIndex]);
+        countWaysToMakeChange(coins, amount - coins[startIndex], startIndex, currentWay, result);
+        currentWay.remove(currentWay.size() - 1);
+
+        // Exclude the current coin and recurse
+        countWaysToMakeChange(coins, amount, startIndex + 1, currentWay, result);
+    }
+}
