@@ -1,21 +1,31 @@
-import java.util.Scanner;
-public class BinomialCoefficient {
-    
-   public static long fact(int i) {
-      if(i <= 1) {
-         return 1;
-      }
-      return i * fact(i - 1);
-   }
-   public static void main(String args[]) {
-      Scanner sc = new Scanner(System.in);  
-      System.out.println("Enter n value: ");
-     
-      int n = sc.nextInt();
-      System.out.println("Enter r value: ");
-     
-      int r = sc.nextInt();
-      long ncr = fact**(n)/(fact(r)*fact(n-r));
-      System.out.println("c("+n+", "+r+") :"+ ncr);
-   }
+public class TestBinomial {
+    public static void main(String[] args) {
+        for (int N = 0; N <= 12; N++) {
+            for (int K = 0; K <= N; K++) {
+                System.out.print(binomial(N, K) + " ");
+            }
+            System.out.println();
+        }
+    }
+
+    public static int binomial(int N, int K) {
+        int result = 1;
+        int M;
+
+        if (N < K) {
+            throw new ArithmeticException("Constraint_Error");
+        }
+
+        if (K > N / 2) {
+            M = N - K;
+        } else {
+            M = K;
+        }
+
+        for (int I = 1; I <= M; I++) {
+            result = result * (N - M + I) / I;
+        }
+
+        return result;
+    }
 }
